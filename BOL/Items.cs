@@ -13,6 +13,8 @@ namespace BOL
         public string Description { get; set; }
         public decimal Price { get; set; }
         public bool IsActive { get; set; }
+        public string Course { get; set; }
+        public int InStock { get; set; }
 
         public virtual Cart Cart { get; set; }
         public virtual OrderDetail OrderDetail { get; set; }

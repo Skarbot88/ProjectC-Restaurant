@@ -12,7 +12,7 @@ namespace BOL
 
         public decimal TotalBill { get; set; }
 
-        public virtual ICollection<OrderDetail> OrderDetail { get; set; }
+        public virtual List<OrderDetail> OrderDetail { get; set; }
 
     }
 }

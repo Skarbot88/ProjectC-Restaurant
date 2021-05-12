@@ -1,0 +1,85 @@
+﻿@model IEnumerable<UserInterface.ViewModels.ItemsVM>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <p>
+        <a class="btn btn-primary" asp-action="CreateOrEdit"><i class="fas fa-plus"></i> Add New</a>
+    </p>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.InStock)
+                </th>
+                <th width="260" class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InStock)
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-info" asp-controller="Items" asp-action="CreateOrEdit" asp-route-id="@item.ItemId"><i class="fas fa-pencil-alt"></i> Edit</a> |
+                        <a class="btn btn-danger" asp-controller="Items" asp-action="Delete" asp-route-id="@item.ItemId" onclick="return confirmDelete()"><i class="fas fa-trash-alt"></i> Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@if (TempData["SuccessMsg"] != null)
+{
+    <script>
+        var msg = "@TempData["SuccessMsg"].ToString()";
+        swal({ title: "Success!", text: msg, icon: "success" });
+    </script>
+}
+@if (TempData["ErrorMsg"] != null)
+{
+    <script>
+        var msg = "@TempData["ErrorMsg"].ToString()";
+        swal({ title: "Error!", text: msg, icon: "error" });
+    </script>
+}
+<script>
+    function confirmDelete() {
+
+        var res = confirm("Are you sure, you want to delete this record?");
+        return res;
+    }
+</script>
