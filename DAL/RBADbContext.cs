@@ -1,4 +1,6 @@
 ﻿using BOL;
+using DAL.ExtensionMethods;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,18 +8,20 @@ using System.Text;
 
 namespace DAL
 {
-    public class RBADbContext:DbContext
+    public class RBADbContext: IdentityDbContext
     {
-        public RBADbContext(DbContextOptions<RBADbContext> options):base(options)
+        public RBADbContext(DbContextOptions<RBADbContext> options): base(options)
         {
-
+            //Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(@"Server=DESKTOP-NTND64I\SQLEXPRESS;Database=RBADatabase; Trusted_Connection=True;");
-        //}
+            //Add Seeding in Extension Methods
+            modelBuilder.Seed();
+        }
 
         public DbSet<ApplicationUsers> ApplicationUsers { get; set; }
         public DbSet<Cart> Cart { get; set; }

@@ -1,7 +1,11 @@
 using BLL;
+using BOL;
 using DAL;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,21 +29,31 @@ namespace UserInterface
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-
-            #region DAL Service
-            services.AddTransient<IApplicationUsersDb, ApplicationUsersDb>();
+            #region DAL Services
             services.AddTransient<ICartDb, CartDb>();
             services.AddTransient<IItemsDb, ItemsDb>();
+            services.AddTransient<IRestaurantDb, RestaurantDb>();
+            services.AddTransient<IApplicationUsersDb, ApplicationUsersDb>();
             #endregion
-
-            #region BLL Service
-            services.AddTransient<IApplicationUsersBs, ApplicationUsersBs>();
+            #region BLL Services
             services.AddTransient<ICartBs, CartBs>();
             services.AddTransient<IItemsBs, ItemsBs>();
+            services.AddTransient<IRestaurantBs, RestaurantBs>();
+            services.AddTransient<IApplicationUsersBs, ApplicationUsersBs>();
             #endregion
 
+            services.AddControllersWithViews();
             services.AddDbContext<RBADbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("dbx")));
+
+            services.AddIdentity<ApplicationUsers, IdentityRole>()
+                .AddEntityFrameworkStores<RBADbContext>()
+                .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Security/Login");
+
+           var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+           services.AddControllersWithViews(x => x.Filters.Add(new AuthorizeFilter(policy)));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,12 +67,11 @@ namespace UserInterface
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
             app.UseStaticFiles();
             app.UseRouting();
 
-            //app.UseAuthorization();
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
