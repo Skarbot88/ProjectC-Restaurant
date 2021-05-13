@@ -16,7 +16,8 @@ namespace BOL
         public string Course { get; set; }
         public int InStock { get; set; }
 
-        public virtual Cart Cart { get; set; }
-        public virtual OrderDetail OrderDetail { get; set; }
+
+        public Cart Cart { get; set; }
+         public OrderDetail OrderDetail { get; set; }
     }
 }

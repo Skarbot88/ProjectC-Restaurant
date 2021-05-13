@@ -10,14 +10,14 @@ namespace BLL
     {
         IEnumerable<Cart> GetAll();
         Cart GetById(int id);
-
         bool Insert(Cart obj);
         bool Update(Cart obj);
         bool Delete(int id);
+        bool DeleteRange(List<int> id);
     }
     public class CartBs: ICartBs
     {
-        private ICartDb objDb;
+        private readonly ICartDb objDb;
         public CartBs(ICartDb _objDb)
         {
             objDb = _objDb;
@@ -25,6 +25,10 @@ namespace BLL
         public bool Delete(int id)
         {
             return objDb.Delete(id);
+        }
+        public bool DeleteRange(List<int> id)
+        {
+            return objDb.DeleteRange(id);
         }
 
         public IEnumerable<Cart> GetAll()

@@ -11,8 +11,9 @@ namespace BOL
         public int InvoiceNo { get; set; }
 
         public decimal TotalBill { get; set; }
+        public string Status { get; set; }
 
-        public virtual List<OrderDetail> OrderDetail { get; set; }
+        public List<OrderDetail> OrderDetail { get; set; }
 
     }
 }

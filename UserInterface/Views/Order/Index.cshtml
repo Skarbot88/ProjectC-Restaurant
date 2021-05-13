@@ -1,0 +1,85 @@
+﻿@model IEnumerable<UserInterface.ViewModels.OrderBillVM>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h4>Order List</h4>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th width="50">
+                    @Html.DisplayNameFor(model => model.InvoiceNo)
+                </th>
+                <th class="text-left">
+                    @Html.DisplayNameFor(model => model.Items)
+                </th>
+                <th width="100">
+                    @Html.DisplayNameFor(model => model.TotalBill)
+                </th>
+                <th class="text-center" width="190">
+                    @Html.DisplayNameFor(model => model.OrderStatus)
+                </th>
+                @if (User.IsInRole("Manager"))
+                {
+                    <th class="text-center" width="100"></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                #region Define Badge Class Dynamically
+                var badgeClass = "badge-secondary";
+                @if (item.OrderStatus == "Pending")
+                    badgeClass = "badge-warning";
+
+                @if (item.OrderStatus == "Delivered")
+                    badgeClass = "badge-success";
+                #endregion
+
+                <tr class="text-center">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InvoiceNo)
+                    </td>
+                    <td class="text-left">
+                        <a asp-controller="Order" asp-action="OrderDetails" asp-route-invoiceNo="@item.InvoiceNo">@Html.DisplayFor(modelItem => item.Items)</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalBill)
+                    </td>
+                    <td class="text-center">
+                        <h5><span class="badge badge-pill @badgeClass">@item.OrderStatus</span></h5>
+                    </td>
+                    @if (User.IsInRole("Manager"))
+                    {
+                        string linkStatus = string.Empty;
+                        if (item.OrderStatus == "Delivered")
+                            linkStatus = "disabled";
+
+                        <td>
+                            <a class="btn btn-info btn-sm btn-edit @linkStatus" asp-controller="Order" asp-action="UpdateOrderStatus" asp-route-invoiceNo="@item.InvoiceNo"><i class="fas fa-pencil-alt"></i> </a>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (TempData["SuccessMsg"] != null)
+{
+    <script>
+        var msg = "@TempData["SuccessMsg"].ToString()";
+        swal({ title: "Success!", text: msg, icon: "success" });
+    </script>
+}
+@if (TempData["ErrorMsg"] != null)
+{
+    <script>
+        var msg = "@TempData["ErrorMsg"].ToString()";
+        swal({ title: "Error!", text: msg, icon: "error" });
+    </script>
+}

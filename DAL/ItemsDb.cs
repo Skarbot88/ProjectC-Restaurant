@@ -9,14 +9,13 @@ namespace DAL
     {
         IEnumerable<Items> GetAll();
         Items GetById(int id);
-
         bool Insert(Items obj);
         bool Update(Items obj);
         bool Delete(int id);
     }
-    public class ItemsDb : IItemsDb
+    public class ItemsDb: IItemsDb
     {
-        private RBADbContext context;
+        private readonly RBADbContext context;
         public ItemsDb(RBADbContext _context)
         {
             context = _context;
