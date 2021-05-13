@@ -4,61 +4,96 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<style>
+    .tableBody tr td {
+        padding: 3px 5px;
+    }
+    .btn-create:hover {
+        background-color: #12467b !important;
+    }
+    .btn-edit:hover {
+        background-color: #19717f !important;
+    }
+    .btn-delete:hover {
+        background-color: #961723 !important;
+    }
+</style>
 <div class="container-fluid">
-    <p>
-        <a class="btn btn-primary" asp-action="CreateOrEdit"><i class="fas fa-plus"></i> Add New</a>
-    </p>
-    <table class="table table-bordered table-hover table-striped">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Course)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Price)
-                </th>
+    @if (User.IsInRole("Manager"))
+    {
+       <p>
+        <a class="btn btn-primary btn-create" asp-action="CreateOrEdit"><i class="fas fa-plus"></i> Add New</a>
+       </p>
+    }    
+    @if (Model.Count() > 0)
+    {
+        foreach (var itemList in Model.GroupBy(x => x.Course))
+        {
+            <p>Course: <b>@itemList.Key.ToString()</b></p>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => itemList.FirstOrDefault().Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => itemList.FirstOrDefault().Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => itemList.FirstOrDefault().Price)
+                        </th>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.InStock)
-                </th>
-                <th width="260" class="text-center">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Course)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
+                        <th>
+                            @Html.DisplayNameFor(model => itemList.FirstOrDefault().InStock)
+                        </th>
+                        <th width="260" class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="tableBody">
+                    @foreach (var item in itemList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.InStock)
-                    </td>
-                    <td class="text-center">
-                        <a class="btn btn-info" asp-controller="Items" asp-action="CreateOrEdit" asp-route-id="@item.ItemId"><i class="fas fa-pencil-alt"></i> Edit</a> |
-                        <a class="btn btn-danger" asp-controller="Items" asp-action="Delete" asp-route-id="@item.ItemId" onclick="return confirmDelete()"><i class="fas fa-trash-alt"></i> Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.InStock)
+                            </td>
+                            @if (User.IsInRole("Manager"))
+                            {
+                               <td class="text-center">
+                                 <a class="btn btn-info btn-sm btn-edit" asp-controller="Items" asp-action="CreateOrEdit" asp-route-id="@item.ItemId"><i class="fas fa-pencil-alt"></i> </a> |
+                                 <a class="btn btn-danger btn-sm btn-delete" asp-controller="Items" asp-action="Delete" asp-route-id="@item.ItemId" onclick="return confirmDelete()"><i class="fas fa-trash-alt"></i> </a>
+                               </td>
+                            }
+                            else
+                            {
+                                <td class="text-center">
+                                    <a class="btn btn-sm btn btn-secondary" asp-controller="Cart" asp-action="AddToCart" asp-route-itemId="@item.ItemId"><i class="fas fa-cart-plus"></i></a>
+                                </td>
+                            }
+
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+        }
+    }
+    else
+    {
+        <p>No item found.</p>
+    }
+
+
 </div>
 
 

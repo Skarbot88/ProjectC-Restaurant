@@ -1,0 +1,63 @@
+﻿@model UserInterface.ViewModels.OrderBillVM
+
+@{
+    ViewData["Title"] = "UpdateOrderStatus";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h4>Update Order</h4>
+    <a class="btn btn-dark" asp-controller="Order" asp-action="Index"> <i class="fas fa-long-arrow-alt-left"></i></a>
+    <br /><br />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="UpdateOrderStatus">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="InvoiceNo" class="control-label"></label>
+                    <input asp-for="InvoiceNo" class="form-control" readonly />
+                    <span asp-validation-for="InvoiceNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Items" class="control-label"></label>
+                    <input asp-for="Items" class="form-control" readonly />
+                    <span asp-validation-for="Items" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TotalBill" class="control-label"></label>
+                    <input asp-for="TotalBill" class="form-control" readonly />
+                    <span asp-validation-for="TotalBill" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="OrderStatus" class="control-label"></label>
+                    <br />
+                    <select asp-for="OrderStatus" asp-items="Model.OrderStatusList" class="form-control">
+                        <option value="">-- Please select status --</option>
+                    </select>
+                    <span asp-validation-for="OrderStatus" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Update</button>
+                    <a class="btn btn-secondary" asp-controller="Order" asp-action="Index"><i class="fas fa-window-close"></i> Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@if (TempData["SuccessMsg"] != null)
+{
+    <script>
+        var msg = "@TempData["SuccessMsg"].ToString()";
+        swal({ title: "Success!", text: msg, icon: "success" });
+    </script>
+}
+@if (TempData["ErrorMsg"] != null)
+{
+    <script>
+        var msg = "@TempData["ErrorMsg"].ToString()";
+        swal({ title: "Error!", text: msg, icon: "error" });
+    </script>
+}

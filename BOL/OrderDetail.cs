@@ -18,11 +18,11 @@ namespace BOL
 
         //[ForeignKey("Items")]
         public int ItemsId { get; set; }
-        public virtual ICollection<Items> Items { get; set; }
+        public ICollection<Items> Items { get; set; }
 
 
         [ForeignKey("OrderBill")]
         public int InvoiceNo { get; set; }
-        public virtual OrderBill OrderBill { get; set; }
+        public OrderBill OrderBill { get; set; }
     }
 }

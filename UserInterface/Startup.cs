@@ -34,12 +34,16 @@ namespace UserInterface
             services.AddTransient<IItemsDb, ItemsDb>();
             services.AddTransient<IRestaurantDb, RestaurantDb>();
             services.AddTransient<IApplicationUsersDb, ApplicationUsersDb>();
+            services.AddTransient<IOrderBillDb, OrderBillDb>();
+            services.AddTransient<IOrderDetailDb, OrderDetailDb>();
             #endregion
             #region BLL Services
             services.AddTransient<ICartBs, CartBs>();
             services.AddTransient<IItemsBs, ItemsBs>();
             services.AddTransient<IRestaurantBs, RestaurantBs>();
             services.AddTransient<IApplicationUsersBs, ApplicationUsersBs>();
+            services.AddTransient<IOrderBillBs, OrderBillBs>();
+            services.AddTransient<IOrderDetailBs, OrderDetailBs>();
             #endregion
 
             services.AddControllersWithViews();

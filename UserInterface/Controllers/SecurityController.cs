@@ -17,11 +17,13 @@ namespace UserInterface.Controllers
         private readonly IApplicationUsersBs objUserBs;
         UserManager<ApplicationUsers> userManager;
         SignInManager<ApplicationUsers> signInManager;
-        public SecurityController(IApplicationUsersBs _objUserBs, UserManager<ApplicationUsers> _userManager, SignInManager<ApplicationUsers> _signInManager)
+        private  ICartBs objCartBs;
+        public SecurityController(ICartBs _objCartBs, IApplicationUsersBs _objUserBs, UserManager<ApplicationUsers> _userManager, SignInManager<ApplicationUsers> _signInManager)
         {
             objUserBs = _objUserBs;
             userManager = _userManager;
             signInManager = _signInManager;
+            objCartBs = _objCartBs;
         }
 
         public IActionResult Login()
@@ -39,6 +41,11 @@ namespace UserInterface.Controllers
 
                     if (result.Succeeded)
                     {
+                        var objUser = await userManager.FindByNameAsync(model.UserName);
+                        var cartListIds = objCartBs.GetAll().Where(x => x.Id == objUser.Id).Select(x => x.CartId).ToList();
+
+                        objCartBs.DeleteRange(cartListIds);
+
                         return RedirectToAction("Index", "Home");
                     }
                     else

@@ -4,12 +4,28 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .tableBody tr td {
+        padding: 3px 5px;
+    }
 
+    .btn-create:hover {
+        background-color: #12467b !important;
+    }
+
+    .btn-edit:hover {
+        background-color: #19717f !important;
+    }
+
+    .btn-delete:hover {
+        background-color: #961723 !important;
+    }
+</style>
 <div class="container-fluid">
     @if (Model.Count() == 0)
     {
         <p>
-            <a class="btn btn-primary" asp-action="CreateOrEdit"><i class="fas fa-plus"></i> Add New</a>
+            <a class="btn btn-primary btn-create" asp-action="CreateOrEdit"><i class="fas fa-plus"></i> Add New</a>
         </p>
     }
 
@@ -42,8 +58,8 @@
                         @Html.DisplayFor(modelItem => item.Contact)
                     </td>
                     <td class="text-center">
-                        <a class="btn btn-info" asp-controller="Restaurant" asp-action="CreateOrEdit" asp-route-id="@item.RestaurantId"><i class="fas fa-pencil-alt"></i> Edit</a> |
-                        <a class="btn btn-danger" asp-controller="Restaurant" asp-action="Delete" asp-route-id="@item.RestaurantId" onclick="return confirmDelete()"><i class="fas fa-trash-alt"></i> Delete</a>
+                        <a class="btn btn-info btn-edit" asp-controller="Restaurant" asp-action="CreateOrEdit" asp-route-id="@item.RestaurantId"><i class="fas fa-pencil-alt"></i> Edit</a> |
+                        <a class="btn btn-danger btn-delete" asp-controller="Restaurant" asp-action="Delete" asp-route-id="@item.RestaurantId" onclick="return confirmDelete()"><i class="fas fa-trash-alt"></i> Delete</a>
                     </td>
                 </tr>
             }

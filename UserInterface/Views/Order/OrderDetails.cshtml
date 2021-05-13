@@ -1,0 +1,70 @@
+﻿@model IEnumerable<UserInterface.ViewModels.OrderDetailVM>
+
+@{
+    ViewData["Title"] = "OrderDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h4>Order Detail</h4>
+    <a class="btn btn-dark" asp-controller="Order" asp-action="Index"> <i class="fas fa-long-arrow-alt-left"></i></a>
+    <br /><br />
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalPrice)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalPrice)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (TempData["SuccessMsg"] != null)
+{
+    <script>
+        var msg = "@TempData["SuccessMsg"].ToString()";
+        swal({ title: "Success!", text: msg, icon: "success" });
+    </script>
+}
+@if (TempData["ErrorMsg"] != null)
+{
+    <script>
+        var msg = "@TempData["ErrorMsg"].ToString()";
+        swal({ title: "Error!", text: msg, icon: "error" });
+    </script>
+}

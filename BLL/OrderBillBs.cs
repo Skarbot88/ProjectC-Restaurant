@@ -6,18 +6,19 @@ using System.Text;
 
 namespace BLL
 {
-    public interface IItemsBs
+    public interface IOrderBillBs
     {
-        IEnumerable<Items> GetAll();
-        Items GetById(int id);
-        bool Insert(Items obj);
-        bool Update(Items obj);
+        IEnumerable<OrderBill> GetAll();
+        OrderBill GetById(int id);
+
+        bool Insert(OrderBill obj);
+        bool Update(OrderBill obj);
         bool Delete(int id);
     }
-    public class ItemsBs: IItemsBs
+    public class OrderBillBs: IOrderBillBs
     {
-        private readonly IItemsDb objDb;
-        public ItemsBs(IItemsDb _objDb)
+        private IOrderBillDb objDb;
+        public OrderBillBs(IOrderBillDb _objDb)
         {
             objDb = _objDb;
         }
@@ -26,22 +27,22 @@ namespace BLL
             return objDb.Delete(id);
         }
 
-        public IEnumerable<Items> GetAll()
+        public IEnumerable<OrderBill> GetAll()
         {
             return objDb.GetAll();
         }
 
-        public Items GetById(int id)
+        public OrderBill GetById(int id)
         {
             return objDb.GetById(id);
         }
 
-        public bool Insert(Items obj)
+        public bool Insert(OrderBill obj)
         {
             return objDb.Insert(obj);
         }
 
-        public bool Update(Items obj)
+        public bool Update(OrderBill obj)
         {
             return objDb.Update(obj);
         }
