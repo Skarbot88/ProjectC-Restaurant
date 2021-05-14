@@ -29,12 +29,22 @@ namespace UserInterface.Controllers
             objOrderBillBs = _objOrderBillBs;
             objUserBs = _objUserBs;
         }
-        public IActionResult Index()
+        public  async Task<IActionResult> Index()
         {
             var objOrderVM = new List<OrderBillVM>();
             try
             {
-                objOrderBillBs.GetAll().ToList().ForEach(x =>
+                var objUser = await userManager.FindByNameAsync(User.Identity.Name);
+
+                List<OrderBill> objList = new List<OrderBill>();
+
+                if (User.IsInRole("Manager"))
+                    objList = objOrderBillBs.GetAll().ToList();
+                else if (User.IsInRole("Customer"))
+                    objList = objOrderBillBs.GetAll().Where(x => x.Id == objUser.Id).ToList();
+
+
+               objList.ForEach(x =>
                 {
                     List<string> itemsNameList = new List<string>();
                     foreach (var item in objOrderDetailBs.GetAll().Where(m => m.InvoiceNo == x.InvoiceNo).Select(x => x.ItemsId).ToList())
@@ -121,7 +131,8 @@ namespace UserInterface.Controllers
             try
             {
                 var objOrderBill = objOrderBillBs.GetById(model.InvoiceNo);
-                objOrderBill.Status = model.OrderStatus;
+
+                objOrderBill.Status = model.OrderStatus == null ? "Pending":model.OrderStatus ;
                 objOrderBillBs.Update(objOrderBill);
 
                 TempData["SuccessMsg"] = "Order updated successfully.";

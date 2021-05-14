@@ -64,7 +64,6 @@ namespace UserInterface.Controllers
                         if (cartItemObj.Quantity >= 5)
                         {
                             TempData["ErrorMsg"] = "Quantity can not exceed to 5.";
-                            return RedirectToAction("Index", "Items");
                         }
                         
                         Cart objCart = new Cart() { CartId = cartItemObj.CartId, Quantity = cartItemObj.Quantity + 1, ItemsId = itemId, Id = userObj.Id, Price = itemObj.Price, TotalPrice = (cartItemObj.Quantity + 1) * itemObj.Price };
