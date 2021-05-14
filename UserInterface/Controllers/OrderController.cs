@@ -50,6 +50,10 @@ namespace UserInterface.Controllers
                     foreach (var item in objOrderDetailBs.GetAll().Where(m => m.InvoiceNo == x.InvoiceNo).Select(x => x.ItemsId).ToList())
                     {
                         var itemObj = objItemBs.GetById(item);
+                        if (itemObj == null)
+                        {
+                            continue;
+                        }
                         itemsNameList.Add(itemObj.Name);
                     }
 
@@ -100,6 +104,10 @@ namespace UserInterface.Controllers
                 foreach (var item in objOrderDetail.Select(x => x.ItemsId).ToList())
                 {
                     var itemObj = objItemBs.GetById(item);
+                    if (itemObj == null)
+                    {
+                        continue;
+                    }
                     itemsNameList.Add(itemObj.Name);
                 }
 
