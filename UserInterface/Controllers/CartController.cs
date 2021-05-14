@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using UserInterface.ViewModels;
@@ -60,9 +61,17 @@ namespace UserInterface.Controllers
 
                     if (cartItemObj != null) //Update Quantity, Total Price
                     {
-                        Cart objCart = new Cart() { CartId = cartItemObj.CartId, Quantity = cartItemObj.Quantity + 1, ItemsId = itemId, Id = userObj.Id, Price = itemObj.Price, TotalPrice = (cartItemObj.Quantity+1) * itemObj.Price };
+                        if (cartItemObj.Quantity >= 5)
+                        {
+                            TempData["ErrorMsg"] = "Quantity can not exceed to 5.";
+                            return RedirectToAction("Index", "Items");
+                        }
+                        
+                        Cart objCart = new Cart() { CartId = cartItemObj.CartId, Quantity = cartItemObj.Quantity + 1, ItemsId = itemId, Id = userObj.Id, Price = itemObj.Price, TotalPrice = (cartItemObj.Quantity + 1) * itemObj.Price };
                         objCartBs.Update(objCart);
                         TempData["SuccessMsg"] = "Item addedd successfully.";
+                        
+                        
                     }
                     else //Insert New
                     {
@@ -114,6 +123,12 @@ namespace UserInterface.Controllers
                     return RedirectToAction("Index", "Cart");
                 }
 
+                if (isAdded && obj.Quantity >= 5)
+                {
+                    TempData["ErrorMsg"] = "Please select quantity between 1 to 5.";
+                    return RedirectToAction("Index", "Cart");
+                }
+
                 obj.Quantity = isAdded ? obj.Quantity + 1 : obj.Quantity - 1;
                 obj.TotalPrice = obj.Quantity * obj.Price;
 
@@ -151,33 +166,37 @@ namespace UserInterface.Controllers
                 });
 
                 //If any item quantity is not available in stock => send error message
-                string outputString = "Sorry, these items are not available in Stock or have less quantity.";
+                string outputString = "Sorry, these items have less quantity in stock.";
                 if (!isQuantityAvailable)
                 {
-                    outputString += "<br/>";
-                    outputString += "Check All items";
+                    objStockVM.ForEach(x =>
+                    {
+                        outputString += "= Item Name: " + x.ItemName + ",  InStock: " + x.AvailableQty;
+                    });
+
                     TempData["ErrorMsg"] = outputString;
-                     //TempData["ErrorMsg"] += "Sorry, these items are not available in Stock or have less quantity." + "<br/>";
-                    //objStockVM.ForEach(x => {
-                    //    TempData["ErrorMsg"] = "Sorry, these items are not available in Stock or have less quantity.";
-                    //});
                     return RedirectToAction("Index", "Cart");
                 }
                 else //If all item's quantity is available in stock => proceed order
                 {
+                    if (objCartBs.GetAll().Where(x => x.Id == objUser.Id).Count() == 0)
+                    {
+                        return RedirectToAction("Index", "Cart");
+                    }
+
                     decimal totalBill = objCartList.Sum(x => x.TotalPrice);
 
                     //Used Transaction to save record in multiple tables
                     using (var trans = new TransactionScope())
                     {
                         //Save Record in Order Bill
-                        OrderBill objOrderBill = new OrderBill() { TotalBill = totalBill, Status = "Pending" };
+                        OrderBill objOrderBill = new OrderBill() {Id = objUser.Id,  TotalBill = totalBill, Status = "Pending" };
                         objOrderBillBs.Insert(objOrderBill);
 
 
                         //Save Records in Order Detail
                         List<OrderDetail> objOrderDetail = new List<OrderDetail>();
-                        objCartList.ForEach(x =>{objOrderDetail.Add(new OrderDetail() { InvoiceNo = objOrderBill.InvoiceNo, ItemsId = x.ItemsId, Price = x.Price, Quantity = x.Quantity });});
+                        objCartList.ForEach(x =>{objOrderDetail.Add(new OrderDetail() {  InvoiceNo = objOrderBill.InvoiceNo, ItemsId = x.ItemsId, Price = x.Price, Quantity = x.Quantity });});
                         objOrderDetailBs.InsertRange(objOrderDetail);
 
                         //Update Stock for each item
@@ -192,11 +211,13 @@ namespace UserInterface.Controllers
                         var cartListIds = objCartList.Select(x => x.CartId).ToList();
                         objCartBs.DeleteRange(cartListIds);
 
+                        
+
                         trans.Complete();
                         TempData["SuccessMsg"] = "Your order has been placed.";
                     }
 
-                    return RedirectToAction("Index", "Items");
+                    return RedirectToAction("Index", "Order");
 
                 }
 

@@ -18,6 +18,11 @@ namespace UserInterface.ViewModels
         [Display(Name = "Order Status")]
         public string OrderStatus { get; set; }
 
+        [Display(Name ="Contact No")]
+        public string ContactNo { get; set; }
+
+        public string Address { get; set; }
+
         public SelectList OrderStatusList { get; set; }
     }
 }

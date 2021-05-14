@@ -13,6 +13,10 @@ namespace BOL
         public decimal TotalBill { get; set; }
         public string Status { get; set; }
 
+
+        public string Id { get; set; }
+        public ApplicationUsers ApplicationUsers { get; set; }
+
         public List<OrderDetail> OrderDetail { get; set; }
 
     }

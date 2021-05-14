@@ -15,17 +15,19 @@ namespace UserInterface.Controllers
     public class OrderController : Controller
     {
         UserManager<ApplicationUsers> userManager;
+        private IApplicationUsersBs objUserBs;
         private ICartBs objCartBs;
         private IItemsBs objItemBs;
         private IOrderBillBs objOrderBillBs;
         private IOrderDetailBs objOrderDetailBs;
-        public OrderController(IOrderBillBs _objOrderBillBs, IOrderDetailBs _objOrderDetailBs, UserManager<ApplicationUsers> _userManager, ICartBs _objCartBs, IItemsBs _objItemBs)
+        public OrderController(IApplicationUsersBs _objUserBs,IOrderBillBs _objOrderBillBs, IOrderDetailBs _objOrderDetailBs, UserManager<ApplicationUsers> _userManager, ICartBs _objCartBs, IItemsBs _objItemBs)
         {
             userManager = _userManager;
             objCartBs = _objCartBs;
             objItemBs = _objItemBs;
             objOrderDetailBs = _objOrderDetailBs;
             objOrderBillBs = _objOrderBillBs;
+            objUserBs = _objUserBs;
         }
         public IActionResult Index()
         {
@@ -41,7 +43,8 @@ namespace UserInterface.Controllers
                         itemsNameList.Add(itemObj.Name);
                     }
 
-                    objOrderVM.Add(new OrderBillVM() { InvoiceNo = x.InvoiceNo,Items =string.Join(", ", itemsNameList) , TotalBill = x.TotalBill, OrderStatus = x.Status });
+                    var objUser = objUserBs.GetById(x.Id);
+                    objOrderVM.Add(new OrderBillVM() {ContactNo = objUser.Contact ?? "" , Address = objUser.Address ?? "" ,InvoiceNo = x.InvoiceNo,Items =string.Join(", ", itemsNameList) , TotalBill = x.TotalBill, OrderStatus = x.Status });
                 });
 
                 return View(objOrderVM);
@@ -92,8 +95,12 @@ namespace UserInterface.Controllers
 
                 //Order Status Items
                 List<SelectListItem> statusListItems = new List<SelectListItem>();
-                statusListItems.Add(new SelectListItem() { Text = "Pending", Value = "Pending"});
-                statusListItems.Add(new SelectListItem() { Text = "Delivered", Value = "Delivered" });
+                statusListItems.Add(new SelectListItem() { Text = "Pending",    Value = "Pending"});
+                statusListItems.Add(new SelectListItem() { Text = "Accepted",   Value = "Accepted" });
+                statusListItems.Add(new SelectListItem() { Text = "Preparing",  Value = "Preparing" });
+                statusListItems.Add(new SelectListItem() { Text = "Delivering", Value = "Delivering" });
+                statusListItems.Add(new SelectListItem() { Text = "Delivered",  Value = "Delivered" });
+               
 
                 objOrderVM.InvoiceNo = objOrderBill.InvoiceNo;
                 objOrderVM.Items = string.Join(", ", itemsNameList);

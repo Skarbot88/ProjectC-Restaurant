@@ -4,7 +4,7 @@
     ViewData["Title"] = "OrderDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<br />
 <div class="container-fluid">
     <h4>Order Detail</h4>
     <a class="btn btn-dark" asp-controller="Order" asp-action="Index"> <i class="fas fa-long-arrow-alt-left"></i></a>
@@ -58,13 +58,13 @@
 {
     <script>
         var msg = "@TempData["SuccessMsg"].ToString()";
-        swal({ title: "Success!", text: msg, icon: "success" });
+        Swal.fire({ title: "Success!", text: msg, icon: "success" });
     </script>
 }
 @if (TempData["ErrorMsg"] != null)
 {
     <script>
         var msg = "@TempData["ErrorMsg"].ToString()";
-        swal({ title: "Error!", text: msg, icon: "error" });
+        Swal.fire({ title: "Error!", text: msg, icon: "error" });
     </script>
 }

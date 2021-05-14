@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,6 +22,8 @@ namespace UserInterface.ViewModels
 
         [Required(ErrorMessage = "Course Name is required.")]
         public string Course { get; set; }
+
+        public SelectList CourseList { get; set; }
 
 
         [Required(ErrorMessage = "Stock Quantity is required.")]

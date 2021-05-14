@@ -4,28 +4,12 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style>
-    .tableBody tr td {
-        padding: 3px 5px;
-    }
-
-    .btn-create:hover {
-        background-color: #12467b !important;
-    }
-
-    .btn-edit:hover {
-        background-color: #19717f !important;
-    }
-
-    .btn-delete:hover {
-        background-color: #961723 !important;
-    }
-</style>
+<br />
 <div class="container-fluid">
     @if (Model.Count() == 0)
     {
         <p>
-            <a class="btn btn-primary btn-create" asp-action="CreateOrEdit"><i class="fas fa-plus"></i> Add New</a>
+            <a class="btn btn-danger btn-create" asp-action="CreateOrEdit"><i class="fas fa-plus"></i> Add New</a>
         </p>
     }
 
@@ -70,14 +54,14 @@
 {
     <script>
         var msg = "@TempData["SuccessMsg"].ToString()";
-        swal({ title: "Success!", text: msg, icon: "success" });
+        Swal.fire({ title: "Success!", text: msg, icon: "success" });
     </script>
 }
 @if (TempData["ErrorMsg"] != null)
 {
     <script>
         var msg = "@TempData["ErrorMsg"].ToString()";
-        swal({ title: "Error!", text: msg, icon: "error" });
+        Swal.fire({ title: "Error!", text: msg, icon: "error" });
     </script>
 }
 <script>

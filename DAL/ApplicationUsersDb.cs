@@ -8,7 +8,7 @@ namespace DAL
     public interface IApplicationUsersDb
     {
         IEnumerable<ApplicationUsers> GetAll();
-        ApplicationUsers GetById(int id);
+        ApplicationUsers GetById(string id);
 
         bool Insert(ApplicationUsers obj);
         bool Update(ApplicationUsers obj);
@@ -35,7 +35,7 @@ namespace DAL
             return context.ApplicationUsers;
         }
 
-        public ApplicationUsers GetById(int id)
+        public ApplicationUsers GetById(string id)
         {
             return context.ApplicationUsers.Find(id);
         }
