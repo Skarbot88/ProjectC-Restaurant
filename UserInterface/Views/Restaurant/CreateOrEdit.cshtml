@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<br />
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
@@ -27,7 +27,7 @@
                     <span asp-validation-for="Contact" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-save"></i> Save</button>
                 </div>
             </form>
         </div>
@@ -38,7 +38,7 @@
 {
     <script>
         var msg = "@TempData["ErrorMsg"].ToString()";
-        swal({ title: "Error!", text: msg, icon: "error" });
+        Swal.fire({ title: "Error!", text: msg, icon: "error" });
     </script>
 }
 

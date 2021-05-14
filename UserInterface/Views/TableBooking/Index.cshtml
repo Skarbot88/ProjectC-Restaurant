@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Save">
+                <div class="form-group">
+                    <label class="control-label">Table No.</label>
+                    <select class="form-control">
+                        <option value="">-- Please select table--</option>
+                        <option value="">1</option>
+                        <option value="">2</option>
+                        <option value="">3</option>
+                        <option value="">4</option>
+                        <option value="">5</option>
+                        <option value="">6</option>
+                        <option value="">7</option>
+                        <option value="">8</option>
+                        <option value="">9</option>
+                        <option value="">10</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Booking Date:</label>
+                    <input type="date" class="form-control" />
+                    
+                </div>
+                
+                <div class="form-group">
+                    <button type="button" class="btn btn-danger"><i class="fas fa-save"></i> Save</button>
+                    <a class="btn btn-secondary" asp-controller="Items" asp-action="Index"><i class="fas fa-window-close"></i> Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+

@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<br />
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
@@ -13,7 +14,10 @@
                 <input type="hidden" asp-for="ItemId" class="form-control" />
                 <div class="form-group">
                     <label asp-for="Course" class="control-label"></label>
-                    <input asp-for="Course" class="form-control" />
+                    <select asp-for="Course" asp-items="Model.CourseList" class="form-control">
+                        <option value="">-- Please select cousre --</option>
+                    </select>
+                    
                     <span asp-validation-for="Course" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -37,7 +41,7 @@
                     <span asp-validation-for="InStock" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-save"></i> Save</button>
                     <a class="btn btn-secondary" asp-controller="Items" asp-action="Index"><i class="fas fa-window-close"></i> Cancel</a>
                 </div>
             </form>

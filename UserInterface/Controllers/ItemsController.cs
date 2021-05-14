@@ -2,6 +2,7 @@
 using BOL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,17 +44,24 @@ namespace UserInterface.Controllers
         public IActionResult CreateOrEdit(int id)
         {
             ItemsVM objVM = new ItemsVM();
-            if (id > 0)
+            List<SelectListItem> courseList = new List<SelectListItem>();
+            courseList.Add(new SelectListItem() { Text = "Starter", Value = "Starter" });
+            courseList.Add(new SelectListItem() { Text = "Main", Value = "Main" });
+            courseList.Add(new SelectListItem() { Text = "Sides", Value = "Sides" });
+            courseList.Add(new SelectListItem() { Text = "Drinks", Value = "Drinks" });
+
+            if (id > 0) //Update
             {
                 var obj = objItemsBs.GetById(id);
                 if (obj != null)
                 {
                     objVM.ItemId = obj.ItemId; objVM.Name = obj.Name; objVM.Description = obj.Description;
                     objVM.Price = obj.Price; objVM.Course = obj.Course; objVM.InStock = obj.InStock;
+                    objVM.CourseList = new SelectList(courseList, "Text", "Value");
                 }
             }
 
-            
+            objVM.CourseList = new SelectList(courseList, "Text", "Value");
             return View(objVM);
         }
         [HttpPost]

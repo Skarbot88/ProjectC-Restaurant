@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<br />
 <div class="container-fluid">
     <h4>Order List</h4>
     <table class="table table-bordered table-hover table-striped">
@@ -22,6 +22,12 @@
                 <th class="text-center" width="190">
                     @Html.DisplayNameFor(model => model.OrderStatus)
                 </th>
+                <th width="150">
+                    @Html.DisplayNameFor(model => model.ContactNo)
+                </th>
+                <th width="200">
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
                 @if (User.IsInRole("Manager"))
                 {
                     <th class="text-center" width="100"></th>
@@ -33,6 +39,7 @@
             {
                 #region Define Badge Class Dynamically
                 var badgeClass = "badge-secondary";
+
                 @if (item.OrderStatus == "Pending")
                     badgeClass = "badge-warning";
 
@@ -40,30 +47,36 @@
                     badgeClass = "badge-success";
                 #endregion
 
-                <tr class="text-center">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.InvoiceNo)
-                    </td>
-                    <td class="text-left">
-                        <a asp-controller="Order" asp-action="OrderDetails" asp-route-invoiceNo="@item.InvoiceNo">@Html.DisplayFor(modelItem => item.Items)</a>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TotalBill)
-                    </td>
-                    <td class="text-center">
-                        <h5><span class="badge badge-pill @badgeClass">@item.OrderStatus</span></h5>
-                    </td>
-                    @if (User.IsInRole("Manager"))
-                    {
-                        string linkStatus = string.Empty;
-                        if (item.OrderStatus == "Delivered")
-                            linkStatus = "disabled";
+            <tr class="text-center">
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceNo)
+                </td>
+                <td class="text-left">
+                    <a asp-controller="Order" asp-action="OrderDetails" asp-route-invoiceNo="@item.InvoiceNo">@Html.DisplayFor(modelItem => item.Items)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalBill)
+                </td>
+                <td class="text-center">
+                    <h5><span class="badge badge-pill @badgeClass">@item.OrderStatus</span></h5>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                @if (User.IsInRole("Manager"))
+                {
+                    string linkStatus = string.Empty;
+                    if (item.OrderStatus == "Delivered")
+                        linkStatus = "disabled";
 
-                        <td>
-                            <a class="btn btn-info btn-sm btn-edit @linkStatus" asp-controller="Order" asp-action="UpdateOrderStatus" asp-route-invoiceNo="@item.InvoiceNo"><i class="fas fa-pencil-alt"></i> </a>
-                        </td>
-                    }
-                </tr>
+                    <td>
+                        <a class="btn btn-info btn-sm btn-edit @linkStatus" asp-controller="Order" asp-action="UpdateOrderStatus" asp-route-invoiceNo="@item.InvoiceNo"><i class="fas fa-pencil-alt"></i> </a>
+                    </td>
+                }
+            </tr>
             }
         </tbody>
     </table>
@@ -73,13 +86,13 @@
 {
     <script>
         var msg = "@TempData["SuccessMsg"].ToString()";
-        swal({ title: "Success!", text: msg, icon: "success" });
+        Swal.fire({ title: "Success!", text: msg, icon: "success" });
     </script>
 }
 @if (TempData["ErrorMsg"] != null)
 {
     <script>
         var msg = "@TempData["ErrorMsg"].ToString()";
-        swal({ title: "Error!", text: msg, icon: "error" });
+        Swal.fire({ title: "Error!", text: msg, icon: "error" });
     </script>
 }

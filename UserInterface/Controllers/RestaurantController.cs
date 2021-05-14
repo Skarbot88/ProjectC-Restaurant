@@ -10,8 +10,6 @@ using UserInterface.ViewModels;
 
 namespace UserInterface.Controllers
 {
-    //[Authorize]
-    [AllowAnonymous]
     public class RestaurantController : Controller
     {
         private IRestaurantBs objRestBs;

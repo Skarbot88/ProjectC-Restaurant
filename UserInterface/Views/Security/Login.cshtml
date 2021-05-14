@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<br />
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
@@ -21,7 +22,7 @@
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login</button>
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-sign-in-alt"></i> Login</button>
                     <a class="btn btn-secondary" asp-controller="Home" asp-action="Index"><i class="fas fa-window-close"></i> Cancel</a>
                 </div>
             </form>
@@ -33,6 +34,6 @@
 {
     <script>
         var msg = "@TempData["ErrorMsg"].ToString()";
-        swal({ title: "Error!", text: msg, icon: "error" });
+        Swal.fire({ title: "Error!", text: msg, icon: "error" });
     </script>
 }

@@ -9,7 +9,7 @@ namespace BLL
     public interface IApplicationUsersBs
     {
         IEnumerable<ApplicationUsers> GetAll();
-        ApplicationUsers GetById(int id);
+        ApplicationUsers GetById(string id);
 
         bool Insert(ApplicationUsers obj);
         bool Update(ApplicationUsers obj);
@@ -33,7 +33,7 @@ namespace BLL
             return objDb.GetAll();
         }
 
-        public ApplicationUsers GetById(int id)
+        public ApplicationUsers GetById(string id)
         {
             return objDb.GetById(id);
         }

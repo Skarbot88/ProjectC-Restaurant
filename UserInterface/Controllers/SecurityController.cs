@@ -79,7 +79,9 @@ namespace UserInterface.Controllers
                     ApplicationUsers objUser = new ApplicationUsers()
                     {
                         UserName = model.UserName,
-                        Email = model.Email
+                        Email = model.Email,
+                        Address = model.Address,
+                        Contact = model.ContactNo 
                     };
                     bool flag = false;
 
