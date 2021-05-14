@@ -1,34 +1,54 @@
 ﻿using BLL;
 using BOL;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using UserInterface.HelperMethods;
 using UserInterface.ViewModels;
 
 namespace UserInterface.Controllers
 {
-    [AllowAnonymous]
+
     public class ItemsController : Controller
     {
         private IItemsBs objItemsBs;
+        private readonly Helpers apiHelper;
         public ItemsController(IItemsBs _objItemsBs)
         {
             objItemsBs = _objItemsBs;
+            apiHelper = new Helpers();
         }
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
                 var objListVM = new List<ItemsVM>();
-                objItemsBs.GetAll().ToList().ForEach(x =>
+               
+                //objItemsBs.GetAll().ToList().ForEach(x =>
+                //{
+                //    objListVM.Add(new ItemsVM() { ItemId = x.ItemId, Name = x.Name, Description = x.Description, Price = x.Price, Course = x.Course, InStock = x.InStock });
+                //});
+
+                //Get Items from API
+                HttpClient client = apiHelper.Initial();
+
+                HttpResponseMessage res = await client.GetAsync("api/Items");
+                if (res.IsSuccessStatusCode)
                 {
-                    objListVM.Add(new ItemsVM() { ItemId = x.ItemId, Name = x.Name, Description = x.Description, Price = x.Price, Course = x.Course, InStock = x.InStock });
-                });
+                    var result = res.Content.ReadAsStringAsync().Result;
+                    var objList = JsonConvert.DeserializeObject <List<Items>>(result);
+
+                    objList.ToList().ForEach(x => 
+                    {
+                        objListVM.Add(new ItemsVM() { ItemId = x.ItemId, Name = x.Name, Description = x.Description, Price = x.Price, Course = x.Course, InStock = x.InStock });
+                    });
+                }
 
                 return View(objListVM);
             }
@@ -38,8 +58,8 @@ namespace UserInterface.Controllers
                 return View();
 
             }
-
         }
+
         [HttpGet]
         public IActionResult CreateOrEdit(int id)
         {

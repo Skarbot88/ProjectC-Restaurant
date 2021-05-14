@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Views\ApplicationUsers\Edit.cshtml" />
     <None Include="Views\Cart\Index.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Privacy.cshtml" />
@@ -22,6 +23,7 @@
     <None Include="Views\Shared\Error.cshtml" />
     <None Include="Views\Shared\_Layout.cshtml" />
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views\TableBooking\Index.cshtml" />
     <None Include="Views\_ViewImports.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
     <None Include="wwwroot\js\site.js" />
@@ -57,7 +59,11 @@
     <None Include="wwwroot\lib\jquery\dist\jquery.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.validate.unobtrusive.min.js" />
     <None Include="wwwroot\lib\sweetalert\sweetalert.min.js" />
+    <None Include="wwwroot\lib\sweetalert\sweetalert2.all.min.js" />
   </ItemGroup>
 
   <ItemGroup>

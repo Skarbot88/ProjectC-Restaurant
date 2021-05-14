@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BOL", "BOL\BOL.csproj", "{3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{F7F8AA30-F72E-411E-A6AD-18CC800206BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{BF38729F-5E5C-4909-91B7-EE2736A8C62E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{BF38729F-5E5C-4909-91B7-EE2736A8C62E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface", "UserInterface\UserInterface.csproj", "{B193FDA9-08FF-41B7-8DE8-0D1E49C2419F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInterface", "UserInterface\UserInterface.csproj", "{B193FDA9-08FF-41B7-8DE8-0D1E49C2419F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{CD51DCF8-6399-47B6-A274-DFDCC20D2C6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B193FDA9-08FF-41B7-8DE8-0D1E49C2419F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B193FDA9-08FF-41B7-8DE8-0D1E49C2419F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B193FDA9-08FF-41B7-8DE8-0D1E49C2419F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD51DCF8-6399-47B6-A274-DFDCC20D2C6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD51DCF8-6399-47B6-A274-DFDCC20D2C6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD51DCF8-6399-47B6-A274-DFDCC20D2C6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD51DCF8-6399-47B6-A274-DFDCC20D2C6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

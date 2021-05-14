@@ -28,7 +28,15 @@ namespace UserInterface.Controllers
 
         public IActionResult Login()
         {
-            return View();
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index","Home");
+            }
+           
         }
         [HttpPost]
         public async Task<IActionResult> Login(LoginVM model)
@@ -67,7 +75,15 @@ namespace UserInterface.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
         }
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM model)
